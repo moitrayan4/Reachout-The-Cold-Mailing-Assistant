@@ -266,4 +266,8 @@ if you want the complete list.
 
 ## License
 
-MIT License
+Released under the **MIT License** — see [`LICENSE`](LICENSE) for the full text.
+You're free to use, modify and distribute it; just keep the copyright notice.
+
+Note that the separately-cloned `linkedin-mcp-server` is a third-party project
+and keeps its own license regardless.
