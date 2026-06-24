@@ -1,0 +1,24 @@
+# Disable Streamlit's source-file watcher. It walks every imported module to
+# decide which are local, and touching `transformers` (pulled in by
+# sentence-transformers) triggers lazy submodule imports that fail on the
+# missing `torchvision` — flooding the console with tracebacks at startup.
+# We don't need hot-reload here; restart the app to pick up code changes.
+[server]
+fileWatcherType = "none"
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[runner]
+fastReruns = true
+
+# Base theme — the custom CSS in ui/styles.py builds on top of this so
+# Streamlit's built-in chrome (menus, tooltips, widgets) matches the design.
+[theme]
+base = "dark"
+primaryColor = "#7c5cff"
+backgroundColor = "#0b0d1a"
+secondaryBackgroundColor = "#141733"
+textColor = "#e7e9f3"
+font = "sans serif"

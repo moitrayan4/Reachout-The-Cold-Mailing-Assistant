@@ -1,0 +1,50 @@
+# --- Secrets & credentials (never commit) ---
+.env
+.env.*
+!.env.example
+gmail_credentials.json
+state/gmail_token.json
+.streamlit/secrets.toml
+*token*.json
+client_secret*.json
+
+# --- Runtime state & local data ---
+state/
+*.db
+*.db.bak_*
+
+# --- Personal files ---
+resume.pdf
+resume.docx
+
+# --- Internal notes / planning (kept local, not part of the repo) ---
+docs/
+
+# --- Vendored third-party server (installed separately, run as a CLI) ---
+linkedin-mcp-server/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+
+# --- Tooling caches ---
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.dmypy.json
+
+# --- Editor / IDE / OS ---
+.claude/settings.local.json
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

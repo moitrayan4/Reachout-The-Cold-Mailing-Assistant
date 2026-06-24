@@ -1,0 +1,76 @@
+# Vetted source sites for the cold-mailing assistant.
+# Each entry specifies HOW to acquire data (method) and per-site settings.
+# Toggle `enabled: false` to skip a site without code changes.
+# Methods: connector | apify | scraper
+# Trust-verified per Section 7 of the plan.
+
+sites:
+  linkedin:
+    enabled: true
+    display_name: "LinkedIn"
+    base_url: "https://www.linkedin.com"
+    method: connector                    # stickerdaniel/linkedin-mcp-server
+    connector_package: linkedin-mcp-server
+    rate_limit_rps: 0.5                  # requests per second (very conservative)
+    daily_request_budget: 200
+    cookies_subdir: linkedin
+    trust_level: high
+    notes: "Browser-session MCP connector; user must be logged in to LinkedIn Chrome profile."
+
+  naukri:
+    enabled: true
+    display_name: "Naukri"
+    base_url: "https://www.naukri.com"
+    method: scraper                      # Patchright browser intercepts jobapi XHR
+    scraper_fallback: true
+    rate_limit_rps: 0.3
+    daily_request_budget: 150
+    cookies_subdir: naukri
+    trust_level: high
+    notes: "India's largest job board. jobapi is Akamai+reCAPTCHA gated, so a headed Patchright browser loads the search page and we intercept its jobapi/v3/search XHR."
+
+  internshala:
+    enabled: true
+    display_name: "Internshala"
+    base_url: "https://internshala.com"
+    method: apify                        # apify MCP if APIFY_TOKEN set, else scraper
+    apify_actor: "logiover/internshala-scraper"
+    scraper_fallback: true
+    rate_limit_rps: 0.3
+    daily_request_budget: 150
+    cookies_subdir: internshala
+    trust_level: high
+    notes: "India's top internship platform. Apify MCP preferred; Patchright scraper fallback."
+
+  unstop:
+    enabled: true
+    display_name: "Unstop"
+    base_url: "https://unstop.com"
+    method: scraper                      # no connector/API found
+    rate_limit_rps: 0.2
+    daily_request_budget: 100
+    cookies_subdir: unstop
+    trust_level: high
+    notes: "Formerly Dare2Compete. Patchright stealth scraper required."
+
+  wellfound:
+    enabled: true
+    display_name: "Wellfound (Startups)"
+    base_url: "https://wellfound.com"
+    method: scraper                      # no connector/API found for internships
+    rate_limit_rps: 0.2
+    daily_request_budget: 100
+    cookies_subdir: wellfound
+    trust_level: high
+    notes: "Formerly AngelList. Good for startup internships. Patchright scraper."
+
+  company_careers:
+    enabled: true
+    display_name: "Target Company Careers (India)"
+    base_url: ""                         # per-company; resolved from target_companies.yaml
+    method: scraper                      # Patchright renders each company's ATS page
+    rate_limit_rps: 0.2
+    daily_request_budget: 200
+    cookies_subdir: company_careers
+    trust_level: high
+    notes: "Watches the India career sites of curated dream companies (config/target_companies.yaml). Internships open to the 2028 batch are flagged PRIORITY and bypass the stipend/recency filters. Round-robins company_watch_max_per_run companies per run."

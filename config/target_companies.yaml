@@ -1,0 +1,212 @@
+# Target "dream" companies whose India career sites are watched for internships
+# open to the 2028 graduating batch. These are surfaced as PRIORITY opportunities
+# during harvest (see src/sources/company_careers.py), bypassing the usual
+# stipend/recency filters so a 2028-eligible internship is never silently dropped.
+#
+# Each entry: a display `name`, a `category`, and optional hints:
+#   careers_url : the India careers/listing page or ATS endpoint, if known/stable.
+#                 Leave empty to have the watcher resolve it at runtime (web search,
+#                 cached to state/company_careers_urls.json).
+#   domain      : the official domain, used to bias runtime URL resolution.
+#   ats         : known applicant-tracking system (greenhouse|lever|workday|
+#                 smartrecruiters|ashby|amazon|successfactors|icims|custom).
+#                 When ats + ats_token are set, the watcher pulls jobs straight
+#                 from that ATS's public JSON API (fast + reliable, no browser).
+#   ats_token   : the ATS identifier — Greenhouse board token, Lever slug,
+#                 SmartRecruiters company id, Ashby org, or Workday "tenant:dc:site"
+#                 (e.g. "nvidia:wd5:NVIDIAExternalCareerSite"). Amazon needs none.
+#                 If omitted, the watcher tries to discover it from the careers URL.
+#
+# Add/remove via `python -m src companies ...` (writes overrides to
+# state/target_companies.json) or edit this file directly.
+
+target_grad_year: 2028          # the batch we MUST surface internships for
+india_only: true                # only watch India offices / India-eligible roles
+
+companies:
+  # --- Government / Defense R&D ---
+  - { name: "DRDO", category: "Government / Defense R&D", domain: "drdo.gov.in" }
+
+  # --- Big Tech (US product) ---
+  - { name: "Google", category: "Big Tech", domain: "google.com", ats: "custom" }
+  - { name: "Microsoft", category: "Big Tech", domain: "microsoft.com", ats: "custom" }
+  - { name: "Amazon", category: "Big Tech", domain: "amazon.jobs", ats: "amazon" }
+  - { name: "AWS", category: "Big Tech", domain: "amazon.jobs", ats: "amazon" }
+  - { name: "Apple", category: "Big Tech", domain: "apple.com", ats: "custom" }
+  - { name: "Meta", category: "Big Tech", domain: "metacareers.com", ats: "custom" }
+  - { name: "Adobe", category: "Big Tech", domain: "adobe.com", ats: "workday" }
+  - { name: "Oracle", category: "Big Tech", domain: "oracle.com", ats: "custom" }
+  - { name: "Salesforce", category: "Big Tech", domain: "salesforce.com", ats: "workday" }
+  - { name: "Cisco", category: "Big Tech", domain: "cisco.com", ats: "custom" }
+  - { name: "Intel", category: "Big Tech", domain: "intel.com", ats: "workday" }
+  - { name: "NVIDIA", category: "Big Tech", domain: "nvidia.com", ats: "workday", ats_token: "nvidia:wd5:NVIDIAExternalCareerSite" }
+  - { name: "Qualcomm", category: "Big Tech", domain: "qualcomm.com", ats: "workday" }
+  - { name: "IBM", category: "Big Tech", domain: "ibm.com", ats: "custom" }
+  - { name: "Dell", category: "Big Tech", domain: "dell.com", ats: "workday" }
+  - { name: "HP", category: "Big Tech", domain: "hp.com", ats: "workday" }
+  - { name: "VMware", category: "Big Tech", domain: "vmware.com", ats: "custom" }
+  - { name: "Uber", category: "Big Tech", domain: "uber.com", ats: "custom" }
+  - { name: "PayPal", category: "Big Tech", domain: "paypal.com", ats: "workday" }
+  - { name: "Visa", category: "Big Tech", domain: "visa.com", ats: "smartrecruiters", ats_token: "Visa" }
+  - { name: "Mastercard", category: "Big Tech", domain: "mastercard.com", ats: "workday" }
+  - { name: "Walmart Global Tech", category: "Big Tech", domain: "walmart.com", ats: "workday" }
+  - { name: "Texas Instruments", category: "Big Tech", domain: "ti.com", ats: "custom" }
+  - { name: "Micron", category: "Big Tech", domain: "micron.com", ats: "workday" }
+  - { name: "AMD", category: "Big Tech", domain: "amd.com", ats: "workday" }
+  - { name: "eBay", category: "Big Tech", domain: "ebay.com", ats: "workday" }
+  - { name: "Expedia", category: "Big Tech", domain: "expedia.com", ats: "workday" }
+
+  # --- Global consulting / professional services ---
+  - { name: "Accenture", category: "Consulting / IT Services", domain: "accenture.com" }
+  - { name: "Capgemini", category: "Consulting / IT Services", domain: "capgemini.com" }
+  - { name: "Cognizant", category: "Consulting / IT Services", domain: "cognizant.com" }
+  - { name: "DXC Technology", category: "Consulting / IT Services", domain: "dxc.com" }
+  - { name: "Atos", category: "Consulting / IT Services", domain: "atos.net" }
+  - { name: "Deloitte", category: "Consulting / Audit", domain: "deloitte.com" }
+  - { name: "PwC", category: "Consulting / Audit", domain: "pwc.in" }
+  - { name: "EY", category: "Consulting / Audit", domain: "ey.com" }
+  - { name: "KPMG", category: "Consulting / Audit", domain: "kpmg.com" }
+  - { name: "McKinsey", category: "Strategy Consulting", domain: "mckinsey.com" }
+
+  # --- Enterprise / product software ---
+  - { name: "SAP", category: "Enterprise Software", domain: "sap.com", ats: "successfactors" }
+  - { name: "ServiceNow", category: "Enterprise Software", domain: "servicenow.com", ats: "custom" }
+  - { name: "Workday", category: "Enterprise Software", domain: "workday.com", ats: "workday" }
+  - { name: "Atlassian", category: "Enterprise Software", domain: "atlassian.com", ats: "lever" }
+  - { name: "Intuit", category: "Enterprise Software", domain: "intuit.com", ats: "workday" }
+  - { name: "Autodesk", category: "Enterprise Software", domain: "autodesk.com", ats: "workday" }
+  - { name: "Citrix", category: "Enterprise Software", domain: "citrix.com" }
+  - { name: "Red Hat", category: "Enterprise Software", domain: "redhat.com", ats: "workday" }
+  - { name: "MongoDB", category: "Enterprise Software", domain: "mongodb.com", ats: "greenhouse", ats_token: "mongodb" }
+  - { name: "Snowflake", category: "Enterprise Software", domain: "snowflake.com", ats: "greenhouse" }
+  - { name: "Databricks", category: "Enterprise Software", domain: "databricks.com", ats: "greenhouse", ats_token: "databricks" }
+  - { name: "Twilio", category: "Enterprise Software", domain: "twilio.com", ats: "greenhouse", ats_token: "twilio" }
+  - { name: "Zoom", category: "Enterprise Software", domain: "zoom.us", ats: "custom" }
+  - { name: "Synopsys", category: "EDA / Semiconductors", domain: "synopsys.com", ats: "workday" }
+  - { name: "Cadence", category: "EDA / Semiconductors", domain: "cadence.com", ats: "workday" }
+  - { name: "Siemens", category: "Industrial / Software", domain: "siemens.com", ats: "successfactors" }
+
+  # --- Investment banks / financial services ---
+  - { name: "Goldman Sachs", category: "Finance / Banking", domain: "goldmansachs.com" }
+  - { name: "JPMorgan Chase", category: "Finance / Banking", domain: "jpmorganchase.com" }
+  - { name: "Morgan Stanley", category: "Finance / Banking", domain: "morganstanley.com" }
+  - { name: "Wells Fargo", category: "Finance / Banking", domain: "wellsfargo.com" }
+  - { name: "Bank of America", category: "Finance / Banking", domain: "bankofamerica.com" }
+  - { name: "Citi", category: "Finance / Banking", domain: "citi.com" }
+  - { name: "Barclays", category: "Finance / Banking", domain: "barclays.com" }
+  - { name: "Deutsche Bank", category: "Finance / Banking", domain: "db.com" }
+  - { name: "HSBC", category: "Finance / Banking", domain: "hsbc.com" }
+  - { name: "UBS", category: "Finance / Banking", domain: "ubs.com" }
+  - { name: "American Express", category: "Finance / Banking", domain: "americanexpress.com" }
+  - { name: "Fidelity", category: "Finance / Banking", domain: "fidelity.com" }
+  - { name: "BlackRock", category: "Finance / Banking", domain: "blackrock.com" }
+  - { name: "State Street", category: "Finance / Banking", domain: "statestreet.com" }
+
+  # --- Indian IT services / product ---
+  - { name: "TCS", category: "Indian IT", domain: "tcs.com" }
+  - { name: "Infosys", category: "Indian IT", domain: "infosys.com" }
+  - { name: "Wipro", category: "Indian IT", domain: "wipro.com" }
+  - { name: "HCLTech", category: "Indian IT", domain: "hcltech.com" }
+  - { name: "Tech Mahindra", category: "Indian IT", domain: "techmahindra.com" }
+  - { name: "LTIMindtree", category: "Indian IT", domain: "ltimindtree.com" }
+  - { name: "Mphasis", category: "Indian IT", domain: "mphasis.com" }
+  - { name: "Persistent", category: "Indian IT", domain: "persistent.com" }
+  - { name: "Coforge", category: "Indian IT", domain: "coforge.com" }
+  - { name: "Zoho", category: "Indian IT", domain: "zoho.com" }
+
+  # --- Product / hardware / industrial / retail ---
+  - { name: "Samsung", category: "Hardware / Electronics", domain: "samsung.com" }
+  - { name: "Sony", category: "Hardware / Electronics", domain: "sony.com" }
+  - { name: "Bosch", category: "Industrial / Auto", domain: "bosch.com", ats: "successfactors" }
+  - { name: "Philips", category: "Healthcare / Electronics", domain: "philips.com", ats: "workday" }
+  - { name: "GE", category: "Industrial", domain: "gecareers.com", ats: "workday" }
+  - { name: "Honeywell", category: "Industrial", domain: "honeywell.com", ats: "workday" }
+  - { name: "Schneider Electric", category: "Industrial / Energy", domain: "se.com", ats: "successfactors" }
+  - { name: "Target", category: "Retail Tech", domain: "target.com", ats: "workday" }
+  - { name: "Tesco", category: "Retail Tech", domain: "tesco.com" }
+  - { name: "Lowe's", category: "Retail Tech", domain: "lowes.com" }
+  - { name: "Shell", category: "Energy", domain: "shell.com", ats: "workday" }
+  - { name: "ExxonMobil", category: "Energy / Tech", domain: "exxonmobil.com" }
+  - { name: "Boeing", category: "Aerospace", domain: "boeing.com" }
+  - { name: "Airbus", category: "Aerospace", domain: "airbus.com", ats: "workday" }
+  - { name: "Mercedes-Benz R&D", category: "Auto R&D", domain: "mbrdi.co.in" }
+  - { name: "Continental", category: "Auto / Industrial", domain: "continental.com", ats: "successfactors" }
+
+  # --- Internet / semiconductors / security / dev tools ---
+  - { name: "LinkedIn", category: "Internet", domain: "linkedin.com", ats: "custom" }
+  - { name: "Netflix", category: "Internet", domain: "netflix.com", ats: "custom" }
+  - { name: "Yahoo", category: "Internet", domain: "yahoo.com", ats: "custom" }
+  - { name: "Akamai", category: "Internet / CDN", domain: "akamai.com", ats: "workday" }
+  - { name: "Broadcom", category: "Semiconductors", domain: "broadcom.com", ats: "workday" }
+  - { name: "Marvell", category: "Semiconductors", domain: "marvell.com", ats: "workday" }
+  - { name: "Analog Devices", category: "Semiconductors", domain: "analog.com", ats: "workday" }
+  - { name: "NXP", category: "Semiconductors", domain: "nxp.com", ats: "successfactors" }
+  - { name: "Infineon", category: "Semiconductors", domain: "infineon.com", ats: "successfactors" }
+  - { name: "Applied Materials", category: "Semiconductors", domain: "appliedmaterials.com", ats: "workday" }
+  - { name: "Lam Research", category: "Semiconductors", domain: "lamresearch.com", ats: "workday" }
+  - { name: "KLA", category: "Semiconductors", domain: "kla.com", ats: "workday" }
+  - { name: "Keysight", category: "Test & Measurement", domain: "keysight.com", ats: "workday" }
+  - { name: "Palo Alto Networks", category: "Cybersecurity", domain: "paloaltonetworks.com", ats: "smartrecruiters" }
+  - { name: "Fortinet", category: "Cybersecurity", domain: "fortinet.com" }
+  - { name: "CrowdStrike", category: "Cybersecurity", domain: "crowdstrike.com", ats: "greenhouse" }
+  - { name: "Zscaler", category: "Cybersecurity", domain: "zscaler.com", ats: "greenhouse" }
+  - { name: "Okta", category: "Cybersecurity", domain: "okta.com", ats: "greenhouse", ats_token: "okta" }
+  - { name: "Splunk", category: "Data / Observability", domain: "splunk.com" }
+  - { name: "Elastic", category: "Data / Observability", domain: "elastic.co", ats: "greenhouse", ats_token: "elastic" }
+  - { name: "GitHub", category: "Dev Tools", domain: "github.com", ats: "custom" }
+  - { name: "GitLab", category: "Dev Tools", domain: "gitlab.com", ats: "greenhouse", ats_token: "gitlab" }
+  - { name: "Unity", category: "Gaming", domain: "unity.com", ats: "greenhouse" }
+  - { name: "Electronic Arts", category: "Gaming", domain: "ea.com", ats: "smartrecruiters", ats_token: "ElectronicArts" }
+  - { name: "Pinterest", category: "Internet", domain: "pinterest.com", ats: "greenhouse", ats_token: "pinterest" }
+  - { name: "Snap", category: "Internet", domain: "snap.com", ats: "greenhouse" }
+  - { name: "Coursera", category: "EdTech", domain: "coursera.org", ats: "greenhouse", ats_token: "coursera" }
+  - { name: "Dropbox", category: "Internet", domain: "dropbox.com", ats: "greenhouse", ats_token: "dropbox" }
+  - { name: "Tektronix", category: "Test & Measurement", domain: "tek.com" }
+  - { name: "Juniper Networks", category: "Networking", domain: "juniper.net" }
+  - { name: "Arista Networks", category: "Networking", domain: "arista.com" }
+  - { name: "F5", category: "Networking / Security", domain: "f5.com", ats: "workday" }
+
+  # --- Telecom ---
+  - { name: "Nokia", category: "Telecom", domain: "nokia.com", ats: "workday" }
+  - { name: "Ericsson", category: "Telecom", domain: "ericsson.com" }
+  - { name: "Verizon", category: "Telecom", domain: "verizon.com" }
+  - { name: "AT&T", category: "Telecom", domain: "att.com" }
+  - { name: "Vodafone (VOIS)", category: "Telecom", domain: "vodafone.com" }
+  - { name: "Comcast", category: "Telecom / Media", domain: "comcast.com" }
+  - { name: "Colt", category: "Telecom", domain: "colt.net" }
+
+  # --- Consulting / market research ---
+  - { name: "Bain", category: "Strategy Consulting", domain: "bain.com" }
+  - { name: "BCG", category: "Strategy Consulting", domain: "bcg.com" }
+  - { name: "Gartner", category: "Research / Advisory", domain: "gartner.com" }
+  - { name: "Forrester", category: "Research / Advisory", domain: "forrester.com" }
+  - { name: "ZS Associates", category: "Consulting / Analytics", domain: "zs.com" }
+  - { name: "Nielsen", category: "Research / Analytics", domain: "nielsen.com" }
+
+  # --- Mid-tier IT services / ER&D ---
+  - { name: "Genpact", category: "IT / BPM", domain: "genpact.com" }
+  - { name: "WNS", category: "IT / BPM", domain: "wns.com" }
+  - { name: "Hexaware", category: "IT Services", domain: "hexaware.com" }
+  - { name: "Virtusa", category: "IT Services", domain: "virtusa.com" }
+  - { name: "UST", category: "IT Services", domain: "ust.com" }
+  - { name: "L&T Technology Services", category: "ER&D", domain: "ltts.com" }
+  - { name: "Cyient", category: "ER&D", domain: "cyient.com" }
+  - { name: "KPIT", category: "Auto ER&D", domain: "kpit.com" }
+  - { name: "Tata Elxsi", category: "ER&D / Design", domain: "tataelxsi.com" }
+  - { name: "Birlasoft", category: "IT Services", domain: "birlasoft.com" }
+  - { name: "Sonata", category: "IT Services", domain: "sonata-software.com" }
+  - { name: "Zensar", category: "IT Services", domain: "zensar.com" }
+  - { name: "Happiest Minds", category: "IT Services", domain: "happiestminds.com" }
+  - { name: "Mastek", category: "IT Services", domain: "mastek.com" }
+  - { name: "Sify", category: "IT / Networks", domain: "sify.com" }
+  - { name: "Harman", category: "Auto / Audio Tech", domain: "harman.com", ats: "successfactors" }
+
+  # --- Media / logistics / consumer ---
+  - { name: "Pearson", category: "EdTech / Media", domain: "pearson.com" }
+  - { name: "Disney/Hotstar", category: "Media / Streaming", domain: "hotstar.com" }
+  - { name: "Warner Bros Discovery", category: "Media / Streaming", domain: "wbd.com" }
+  - { name: "Maersk", category: "Logistics", domain: "maersk.com" }
+  - { name: "DHL", category: "Logistics", domain: "dhl.com" }
+  - { name: "FedEx", category: "Logistics", domain: "fedex.com" }
+  - { name: "UPS", category: "Logistics", domain: "ups.com" }
+  - { name: "P&G", category: "FMCG", domain: "pg.com" }
