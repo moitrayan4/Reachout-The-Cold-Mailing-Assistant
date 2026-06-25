@@ -2,9 +2,10 @@
 MCP client factory — LinkedIn (stdio subprocess) + Hunter.io (remote HTTP).
 
 LinkedIn:
-  Your project spawns linkedin-mcp-server automatically via stdio.
-  No separate terminal or port needed. Run `linkedin-mcp-server --login`
-  once to save a browser session, then everything else is automatic.
+  Your project spawns its own server (src.linkedin_mcp_server) automatically
+  via stdio. No separate terminal or port needed. Run
+  `python -m src.linkedin_mcp_server --login` once to save a browser session,
+  then everything else is automatic.
 
 Hunter.io:
   Your project connects directly to Hunter's hosted MCP server over
@@ -167,18 +168,25 @@ def linkedin_client() -> MCPClient:
     """
     MCP client for LinkedIn.
 
-    Spawns linkedin-mcp-server as a subprocess via stdio — no port, no
-    manual startup. First-time setup: run `linkedin-mcp-server --login`
-    once to save a browser session to ~/.linkedin-mcp/profile.
+    Spawns our own from-scratch LinkedIn MCP server (src.linkedin_mcp_server)
+    as a subprocess via stdio — no port, no manual startup. First-time setup:
+    run `python -m src.linkedin_mcp_server --login` once to save a browser
+    session.
+
+    This is the only connector path. When it is unavailable or errors at
+    runtime, LinkedInSource falls back to the Patchright scraper pipeline.
     """
+    import sys
+
     profile_dir = os.getenv("LINKEDIN_CHROME_PROFILE_PATH") or None
     env_overrides: dict[str, str] = {"HEADLESS": "1"}
     if profile_dir:
         env_overrides["USER_DATA_DIR"] = profile_dir
-    return MCPClient(
-        command=["linkedin-mcp-server", "--transport", "stdio", "--log-level", "WARNING"],
-        env=env_overrides,
-    )
+        env_overrides["LINKEDIN_MCP_PROFILE"] = profile_dir
+
+    command = [sys.executable, "-m", "src.linkedin_mcp_server",
+               "--transport", "stdio", "--log-level", "WARNING"]
+    return MCPClient(command=command, env=env_overrides)
 
 
 def call_linkedin_mcp(tool: str, args: dict) -> dict:

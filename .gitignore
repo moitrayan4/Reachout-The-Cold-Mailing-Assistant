@@ -20,9 +20,6 @@ resume.docx
 # --- Internal notes / planning (kept local, not part of the repo) ---
 docs/
 
-# --- Vendored third-party server (installed separately, run as a CLI) ---
-linkedin-mcp-server/
-
 # --- Python ---
 __pycache__/
 *.py[cod]

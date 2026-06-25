@@ -121,8 +121,6 @@ def stealth_browser(
 
     launch_args = [
         "--disable-blink-features=AutomationControlled",
-        "--no-sandbox",
-        "--disable-dev-shm-usage",
         "--start-maximized",
     ]
 

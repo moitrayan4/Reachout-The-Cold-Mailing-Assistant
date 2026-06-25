@@ -93,7 +93,7 @@ class LinkedInSource(BaseSource):
                 raw_note = (search_data.get("raw") or "") if isinstance(search_data, dict) else ""
                 if "no valid linkedin session" in raw_note.lower() or "log in" in raw_note.lower():
                     warn("LinkedIn session has expired. Re-authenticate by running:  "
-                         "linkedin-mcp-server --login   (sign in, then re-run harvest).")
+                         "python -m src.linkedin_mcp_server --login   (sign in, then re-run harvest).")
                     return []
                 job_ids: List[str] = search_data.get("job_ids", [])[:10]
                 if not job_ids:

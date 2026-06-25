@@ -144,17 +144,32 @@ pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
-**2. The LinkedIn MCP server.** LinkedIn scraping and HR search go through
-[stickerdaniel/linkedin-mcp-server](https://github.com/stickerdaniel/linkedin-mcp-server),
-which isn't bundled here. Clone it into the project root and follow its README to
-build and log in:
+**2. Give LinkedIn a session once.** LinkedIn scraping and HR search go through
+this project's own MCP server (`src/linkedin_mcp_server/`) — no separate install
+or clone needed, it ships in the repo and is spawned automatically over stdio.
+You hand it your login once by **capturing the session from a browser you're
+already signed into**, after which every harvest runs fully headless (no window,
+no re-login):
 
 ```bash
-git clone https://github.com/stickerdaniel/linkedin-mcp-server.git
+# 1. Start Edge (or Chrome) with a debugging port, then sign in to LinkedIn in it:
+#    Windows (Edge):
+"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --remote-debugging-port=9222
+
+# 2. Capture just the LinkedIn cookies into ~/.reachout-linkedin-mcp/storage_state.json:
+python -m src.linkedin_mcp_server --capture-session http://localhost:9222
 ```
 
-That connector is stickerdaniel's work (and its contributors'), used under its own
-license — credit goes to them.
+That's it — from then on `python -m src harvest` reuses the saved session
+headlessly. If a search ever reports the session expired, repeat the two steps
+to re-capture. When the server is unavailable, the source automatically falls
+back to the built-in Patchright scraper pipeline.
+
+Two other auth modes are supported if you prefer them:
+- **Attach to a live browser** — `set LINKEDIN_MCP_CDP_URL=http://localhost:9222`
+  before harvest to scrape through a running, logged-in browser (no capture file).
+- **Dedicated-profile login** — `python -m src.linkedin_mcp_server --login` opens
+  a browser to sign in once into a private profile that later runs reuse.
 
 **3. Drop in your resume.** Put `resume.pdf` or `resume.docx` in the project root.
 It gets parsed on startup and re-read automatically whenever you change it.
@@ -221,9 +236,10 @@ python -m src roles set "ML Engineer" "Data Analyst" "AI Research"
 python -m src roles clear
 ```
 
-A typical loop is: set your roles once, start the LinkedIn MCP server, then
-`harvest`, `review`, `watch` — or just leave `schedule` running and let it do its
-thing. `python -m src --help` lists everything if you forget a command.
+A typical loop is: set your roles once, capture a LinkedIn session (step 2 of
+Setup, just the first time), then `harvest`, `review`, `watch` — or just leave
+`schedule` running and let it do its thing. `python -m src --help` lists
+everything if you forget a command.
 
 ## Configuration
 
@@ -260,14 +276,11 @@ if you want the complete list.
   default so they pass the anti-bot checks (`SCRAPER_HEADLESS` if you want to
   change that). Use it within each site's terms — this is meant for your own job
   hunt, not for hammering anyone.
-- The LinkedIn MCP server is somebody else's project; its license and credit are
-  theirs.
+- The LinkedIn MCP server (`src/linkedin_mcp_server/`) drives a real browser
+  session — keep within LinkedIn's terms and your own account's limits.
 - This is a personal/educational tool. Treat it like one.
 
 ## License
 
 Released under the **MIT License** — see [`LICENSE`](LICENSE) for the full text.
 You're free to use, modify and distribute it; just keep the copyright notice.
-
-Note that the separately-cloned `linkedin-mcp-server` is a third-party project
-and keeps its own license regardless.

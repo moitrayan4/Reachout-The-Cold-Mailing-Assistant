@@ -9,13 +9,13 @@ sites:
     enabled: true
     display_name: "LinkedIn"
     base_url: "https://www.linkedin.com"
-    method: connector                    # stickerdaniel/linkedin-mcp-server
-    connector_package: linkedin-mcp-server
+    method: connector                    # own server: src.linkedin_mcp_server
+    connector_package: src.linkedin_mcp_server
     rate_limit_rps: 0.5                  # requests per second (very conservative)
     daily_request_budget: 200
     cookies_subdir: linkedin
     trust_level: high
-    notes: "Browser-session MCP connector; user must be logged in to LinkedIn Chrome profile."
+    notes: "Own Patchright MCP connector; user must log in once via `python -m src.linkedin_mcp_server --login`. Falls back to the scraper pipeline."
 
   naukri:
     enabled: true
